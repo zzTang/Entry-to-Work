@@ -19,30 +19,33 @@ hash <- {}
 
 
 
-//  入桶，
-index1 <- 0
+//  入桶
+index1 <- 0 // index1是针对 a 数组的索引
 while(index1 < a['length']) // index1 小于7
 	number = a[index1]  // 0,2,1,56,3,67,3
-	if hash[number] == defined //hash[number]不存在
+
+	// hash[number]表示一个数在 hash 中出现的次数。如果此前该数未出现过，则赋值为1
+	if hash[number] == defined 
 		hash[number] = 1
-	else  // hash[number]存在
+	else  
+		// 如果这个数此前已经出现过，则 hash[number] 要加上1
 		hash[number] = hash[number] + 1
 	end
-	index1 <- index1 +1
+	index1 <- index1 +1 
 end
 
 
 //  出桶
-index2 <- 0
-max <- findMax(a)
-newArr <- {}
-while(index2 < max+1)
-	count =hash[index2]
-	if count != undefined
-		countIndex = 0
-		while(countIndex < count)
-			newArr.push(index2)
-			count Index <- countIndex + 1
+index2 <- 0 // index2是针对 hash 的索引
+max <- findMax(a) // 给 max 赋值为数组 a 中的最大值
+newArr <- {} // 声明一个空数组
+while(index2 < max+1) // 循环的条件为，index2的值小于 a 数组最大数+1
+	count =hash[index2] // 给count表示的是一个数在 hash中出现的次数
+	if count != undefined // 如果 count 不为空
+		countIndex = 0 // countIndex批是的是推入数组的次数，赋值为0
+		while(countIndex < count) // 循环条件是 countIndex < count
+			newArr.push(index2) // 在满足条件的情况下不停推数字到数组当中
+			countIndex <- countIndex + 1
 		end
 	end
 	index2 <- index2 + 1
