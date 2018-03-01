@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+	<meta charset="UTF-8">
+	<title>我的导航</title>
+	<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+	<header></header>
+	<main>
+		<div class="wrapper" id="mainx"></div>
+	</main>
+	<footer></footer>
+	<script>
+		keys ={
+			0: ['q','w','e','r','t','y','u','i','o','p'],
+			1: ['a','s','d','f','g','h','j','k','l'],
+			2: ['z','x','c','v','b','n','m',],
+			length: 3
+		}
+		hash = {q: 'qq.com', w: 'weibo.com', e: 'ele.me', r: 'renren.com', t: 'tianya.com', y: 'youtube.com', u: 'uc.com', i: 'iqiyi.com', o: 'opera.com', p: 'undefined', a: 'acfun.com', s: 'sohu.com', z: 'zhihu.com', m: 'mcdonalds.com.cn'}
+		// 取出 localstorage 中的 zzz 对应的 hash
+		hashInLocalStorage = JSON.parse(localStorage.getItem('zzz')||'null')
+		if(hashInLocalStorage){
+			hash = hashInLocalStorage
+		}
+		index =0
+		while(index< keys['length']){ // 0 1 2
+			divx = document.createElement('div') //创建一个元素
+			mainx.appendChild(divx)  // 将创建的元素加入到 mainx 中
+			row = keys[index] //第一个数组，第二个数组，第三个数组
+			index2 = 0
+			while(index2< row['length']){ // index 取值，0-9，0-8，0-6
+				kbdx = document.createElement('kbd') //创建 kbd 标签
+				kbdx.textContent = row[index2] // kbd 显示内容为当前 kbd 在数组中的字符
+				buttonx = document.createElement('button') // 创建 button
+				kbdx.appendChild(buttonx) //将 button 添加到 kbdx 中
+				buttonx.textContent = '编辑'
+				buttonx.id = row[index2]
+				buttonx.onclick = function(canshu){
+					key = canshu['target']['id'] // q w e r t
+					x = prompt('给我一个网址') // 例如qq.com
+					hash[key] = x // hash 变更
+					localStorage.setItem('zzz',JSON.stringify(hash))
+					console.log(hash)
+				}
+				divx.appendChild(kbdx)
+				index2 = index2 + 1
+			}
+			index = index +1
+		}
+
+		document.onkeypress = function(canshu){
+			key = canshu['key'] // 拿到用户按的键
+			website = hash[key] // 得到键对应的网站
+			// location.href = 'http://'+website // 在当前标打开
+			window.open('http://'+website,'_blank') //在新标签中打开
+		}
+	</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
