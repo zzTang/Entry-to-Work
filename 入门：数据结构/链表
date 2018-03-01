@@ -1,0 +1,34 @@
+链表
+
+数组的缺点，当删除数组其中某一项时，非常麻烦。
+不但要删除当前项，还要将后面的所有项都要往前提，工作量非常大。
+链表是动态的数组
+
+
+// 代码实现过程
+> var a = {
+	value:0,
+	next: {
+		value:2,
+		next: {
+			value:1,
+			next:undefined,
+		}
+	}
+}
+
+< undefined
+> a.value
+< 0
+> a.next.value
+< 2
+> a.next.next.value
+< 1
+> a.next = a.next.next  // 直接跳过第二项（相当于删除第2项）
+< {value: 1, next: undefined}
+> a.value
+< 0
+> a.next.value
+< 1
+> a.next.next.value  // 报错，
+TypeError: undefined is not an object (evaluating 'a.next.next.value')
