@@ -8,54 +8,139 @@
 <body>
 	<header></header>
 	<main>
-		<div class="wrapper" id="mainx"></div>
+		<div class="wrapper" id="main"></div>
 	</main>
 	<footer></footer>
 	<script>
-		keys ={
+
+		//1. 初始化数据
+		var hashA = init()
+		var keys = hashA['keys']
+		var hash =hashA['hash']
+		
+		//2.生成键盘
+		generateKeyboard(keys,hash)
+		
+
+
+		//3.监听用户
+		listenToUser(hash)
+
+		//4.工具函数
+		// 初始化数据
+		function init(){
+			var keys ={
 			0: ['q','w','e','r','t','y','u','i','o','p'],
 			1: ['a','s','d','f','g','h','j','k','l'],
 			2: ['z','x','c','v','b','n','m',],
 			length: 3
 		}
-		hash = {q: 'qq.com', w: 'weibo.com', e: 'ele.me', r: 'renren.com', t: 'tianya.com', y: 'youtube.com', u: 'uc.com', i: 'iqiyi.com', o: 'opera.com', p: 'undefined', a: 'acfun.com', s: 'sohu.com', z: 'zhihu.com', m: 'mcdonalds.com.cn'}
-		// 取出 localstorage 中的 zzz 对应的 hash
-		hashInLocalStorage = JSON.parse(localStorage.getItem('zzz')||'null')
+			var hash = {q: 'qq.com', w: 'weibo.com', e: 'ele.me', r: 'renren.com', t: 'tianya.com', y: 'youtube.com', u: 'uc.com', i: 'iqiyi.com', o: 'opera.com', p: 'undefined', a: 'acfun.com', s: 'sohu.com', z: 'zhihu.com', m: 'mcdonalds.com.cn'} 
+		/*取出 localstorage 中的 zzz 对应的 hash*/
+		var hashInLocalStorage = getFromLocalStorage('zzz')
 		if(hashInLocalStorage){
 			hash = hashInLocalStorage
 		}
-		index =0
-		while(index< keys['length']){ // 0 1 2
-			divx = document.createElement('div') //创建一个元素
-			mainx.appendChild(divx)  // 将创建的元素加入到 mainx 中
-			row = keys[index] //第一个数组，第二个数组，第三个数组
-			index2 = 0
-			while(index2< row['length']){ // index 取值，0-9，0-8，0-6
-				kbdx = document.createElement('kbd') //创建 kbd 标签
-				kbdx.textContent = row[index2] // kbd 显示内容为当前 kbd 在数组中的字符
-				buttonx = document.createElement('button') // 创建 button
-				kbdx.appendChild(buttonx) //将 button 添加到 kbdx 中
-				buttonx.textContent = '编辑'
-				buttonx.id = row[index2]
-				buttonx.onclick = function(canshu){
-					key = canshu['target']['id'] // q w e r t
-					x = prompt('给我一个网址') // 例如qq.com
-					hash[key] = x // hash 变更
-					localStorage.setItem('zzz',JSON.stringify(hash))
-					console.log(hash)
-				}
-				divx.appendChild(kbdx)
-				index2 = index2 + 1
-			}
-			index = index +1
+		return{
+			'keys': keys,
+			'hash': hash
+		}
 		}
 
-		document.onkeypress = function(canshu){
-			key = canshu['key'] // 拿到用户按的键
-			website = hash[key] // 得到键对应的网站
-			// location.href = 'http://'+website // 在当前标打开
-			window.open('http://'+website,'_blank') //在新标签中打开
+		function getFromLocalStorage(name){
+			return JSON.parse(localStorage.getItem('zzz')||'null')
 		}
+
+		//生成键盘
+		function generateKeyboard(keys,hash){
+			for(var index=0;index< keys['length'];index=index+1){
+			var div = tag('div',{className: 'row'}) /*创建一个元素*/
+
+			main.appendChild(div)   /*将创建的元素加入到 main 中*/
+
+			var row = keys[index] /*第一个数组，第二个数组，第三个数组*/
+			for(var index2=0;index2< row['length'];index2++){
+
+			var span = createSpan(row[index2])
+
+			var button = createButton(row[index2])
+
+			var img = createImage(hash[row[index2]])
+
+			kbd = tag('kbd') /*创建 kbd 标签*/
+			kbd.className = 'key'
+			kbd.appendChild(span)
+			kbd.appendChild(img) /*将 img 标签加到 kbd*/
+			kbd.appendChild(button) /*将 button 添加到 kbd 中*/
+
+			div.appendChild(kbd)
+			}
+		}
+	}
+		
+		//获取span
+		function createSpan(textContent){
+			var span = tag('span')
+			span.textContent = textContent
+			span.className = 'text'
+			return span
+		}
+
+		// 获取元素
+		function tag(tagName,attributes){
+			var element = document.createElement(tagName)
+			for(var key in attributes){ //key 为 className，id，textContent
+				element[key]=attributes[key]
+			}
+			return element
+		}
+
+		//获取 button
+		function createButton(id){
+			var button = tag('button')  /*创建 button*/
+			button.textContent = '编辑'
+			button.id = id
+			button.onclick = function(canshu){
+			var button2 = canshu['target']
+			var img2 = (button2.previousSibling)
+			var key = button2['id']
+			// key = canshu['target']['id']  /*q w e r t*/
+			var x = prompt('给我一个网址')  /*例如qq.com*/
+			hash[key] = x  /*hash 变更*/
+			img2.src = 'http://'+hash[row[index2]]+'/favicon.ico' /
+			localStorage.setItem('zzz',JSON.stringify(hash))
+			console.log(hash)
+			img2.onerror = function(xxx){
+				xxx.target.src = '//.loli.net/2017/11/10/5a05afbc5e183.png'
+			}
+		}
+		return button
+			}
+
+		//获取图片
+		function createImage(domain){
+			var img = tag('img') /*创建一个 img 标签*/
+			if(domain){
+			img.src = 'http://'+domain+'/favicon.ico' /*给出 img 的地址*/
+			}else{
+			img.src ='//i.loli.net/2017/11/10/5a05afbc5e183.png'
+			}
+			img.onerror = function(xxx){/*如果出错，就给一个默认图片*/
+			xxx.target.src = '//i.loli.net/2017/11/10/5a05afbc5e183.png'
+			}
+			return img
+		}
+
+		//监听用户
+		function listenToUser(hash){
+			document.onkeypress = function(canshu){
+			var key = canshu['key']  /*拿到用户按的键*/
+			var website = hash[key]  /*得到键对应的网站*/
+			// location.href = 'http:'+website  /*在当前标打开*/
+			window.open('http://'+website,'_blank') /*在新标签中打开*/
+		}
+		}
+
 	</script>
 
 </body>

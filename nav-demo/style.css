@@ -1,37 +1,17 @@
-* {margin: 0;padding: 0;}
-a {text-decoration: none;}
-kbd {
-	border: 1px solid red;
-	width: 4em;height: 4em;
-	display: inline-block;
-	text-transform: uppercase;
-	position: relative;
-}
+*{margin: 0;padding: 0;}
+a{text-decoration: none;}
+kbd{border: 1px solid red; width: 4em;height: 4em; display: inline-block; text-transform: uppercase; position: relative; }
+kbd > button{position: absolute; bottom: 0; right: 0; display: none; }
+kbd:hover >button{display: inline-block; }
+body{background: gray url(./images/wall.jpg) no-repeat center center;/*未加载图片时显示前面的背景颜色*/ background-size: cover; } main{text-align: center; display: flex;/*弹性盒*/ justify-content: center; align-items: center; height: 100vh; }
+#main{display:inline-block;}
+#main > div:nth-child(2){margin-left: -22px; }
+#main > div:nth-child(3){margin-left: -80px; }
 
-kbd > button {
-	position: absolute;
-	bottom: 0;
-	right: 0;
-	display: none;
-}
+.wrapper{background: rgba(255,255,255,0.2);border-radius: 10px;}
 
-kbd:hover >button {
-	display: inline-block;
-}
-
-main {
-	text-align: center;
-}
-
-#mainx {
-	display:inline-block;
-}
-
-#mainx > div:nth-child(2) {
-	margin-left: 1em;
-}
-
-#mainx > div:nth-child(3) {
-	margin-left: 2em;
-}
-
+.key{width: 50px; height: 40px; background: linear-gradient(to bottom, #292929 0%,#111111 100%); border: 1px solid #373737; border-radius: 6px; color: #D0D0D0; box-shadow: 0 0 0 1px #1a1b1c,0 0 0 2px #1f2020,0 3px 0 2px #080808; position: relative; font-size: 16px;font-family: Helvetica;} 
+.row{margin: 20px;}
+.row .key{margin: 0 8px;} 
+.key img{width: 16px;height: 16px;position: absolute;left: 2px;bottom: 2px;}
+.key .text{position: absolute; left: 4px; top: 2px; }
